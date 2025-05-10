@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Titanic</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+
+<body>
+    <main>
+        <h1>Titanic page</h1>
+    </main>
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/titanic">Titanic</a> |
+        <a href="https://github.com/MaialenTolosa" target="_blank">About</a>
+    </nav>
+    <div class="container mt-4">
+        <h2>First 5 rows of Titanic Dataset</h2>
+        {{ table|safe }}
+    </div>
+
+    <div style="text-align: center;">
+    <canvas id="survivalChart" width="1000" height="500"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('survivalChart').getContext('2d');
+        const chartData = {{ chart_data | tojson }};
+        const labels = Object.keys(chartData);
+        const values = Object.values(chartData);
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Number of Survivors',
+                    data: values,
+                    backgroundColor: ['#007bff', '#f75c5c'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                 y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 }
+                    }
+                }
+             }
+        });
+    </script>
+    
+</body>
+
+<footer>
+  <p>Created by Maialen Tolosa with love :)</p>
+</footer>
+
+</html>
